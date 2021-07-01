@@ -1,8 +1,8 @@
 set sample_name "ex"; # 文件名
 set sleeptime "30000";  # 睡眠时间，单位为毫秒
-set jitter    "15";		# 抖动频率，百分之5
+set jitter    "15";		# 抖动频率，百分之15
 
-set maxdns    "255";	# 通过DNS来上传数据的时候的最大hostname长度
+#set maxdns    "255";	# 通过DNS来上传数据的时候的最大hostname长度
 set useragent "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36";
 
 
@@ -74,7 +74,7 @@ http-get {
         # 将元数据放在cookie头中，并进行base64编码。
         metadata {
             base64;
-            prepend "uuid_tt_dd=10_306329eXixmCiGSrA==4863-704131;tokenInfo=SownINownOnewom";
+            prepend "uuid_tt_dd=10_306329;tokenInfo=SownINownOnewom";
             append  "/sOBwoNmqvsnw6wo==";
             header "Cookie";
         }
