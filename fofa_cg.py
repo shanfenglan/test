@@ -1,4 +1,4 @@
-import re
+import re,sys,os
 
 class cg_e_k:
     def __init__(self,email,key,pattern,path):
@@ -40,17 +40,31 @@ class cg_e_k:
         self.save_file(self.path)
 
 if __name__ == '__main__':
-    email="123@qq.com"
-    key = ""
-    email1 = "\"123@qq.com\""
-    key1 = "\"\""
+    revice = ''
+    try:
+        revice = sys.argv[1]
+    except:
+        print("输出key")
+        exit(0)
+    key = revice
+    key1 = "\"" + revice + "\""
 
+    email="123@qq.com"
+    # key = ""
+    email1 = "\"123@qq.com\""
+    # key1 = "\"\""
+    print('''
+        当前凭据为：
+            {0}:{1}
+            {2}:{3}
+    '''.format(email,key,email1,key1)
+          )
 
     fofa_view_path = "/Users/zhujiayu/tools/others/FofaViewer/config.properties"
     fofa_view_pattern = ['(email)=(.*)', '(key)=(.*)']
 
     subfinder_path = "/Users/zhujiayu/.config/subfinder/config.yaml"
-    subfinder_pattern = '^- 123@qq.com:'
+    subfinder_pattern = '^- 2723382996@qq.com:'
 
 
     fofa_allin_path = "/Users/zhujiayu/tools/info_collection/asset/AlliN-main/AlliN.py"
