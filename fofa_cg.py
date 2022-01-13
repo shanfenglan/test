@@ -64,7 +64,7 @@ if __name__ == '__main__':
     fofa_view_pattern = ['(email)=(.*)', '(key)=(.*)']
 
     subfinder_path = "/Users/zhujiayu/.config/subfinder/config.yaml"
-    subfinder_pattern = '^- 2723382996@qq.com:'
+    subfinder_pattern = '^- 123@qq.com:'
 
 
     fofa_allin_path = "/Users/zhujiayu/tools/info_collection/asset/AlliN-main/AlliN.py"
